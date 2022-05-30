@@ -1,3 +1,5 @@
+import 'package:alura_flutter_curso_2/components/tasks.dart';
+import 'package:alura_flutter_curso_2/data/task_inherited.dart';
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
@@ -122,9 +124,13 @@ class _FormScreenState extends State<FormScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            print('Nome:${nameController.text}');
-                            print('Dificuldade:${difficultyController.text}');
-                            print('Imagem:${imageController.text}');
+                            TaskInherited.of(widget.taskContext)
+                                .taskList
+                                .add(Tasks(
+                                  nameController.text,
+                                  imageController.text,
+                                  int.parse(difficultyController.text),
+                                ));
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Salvando nova Tarefa')));

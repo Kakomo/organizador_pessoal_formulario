@@ -19,10 +19,7 @@ class _InitialScreenState extends State<InitialScreen> {
       ),
       body: Container(
         color: Color.fromARGB(255, 208, 221, 237),
-        child: ListView( // vai ter que ser um Inherited Widget com as informações das tarefas todas! e a habilidade de receber novas tarefas!
-          //ListView ou ListView.builder? (vai receber novas tarefas depois né...)
-          //conferir as transações no curso 3 de flutter(old)
-
+        child: ListView(
           children: TaskInherited.of(context).taskList,
           padding: EdgeInsets.only(top: 8,bottom: 70),
         ),
@@ -31,7 +28,7 @@ class _InitialScreenState extends State<InitialScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FormScreen()),
+            MaterialPageRoute(builder: (contextNew) => FormScreen(taskContext: context,)),
           );
         },
         backgroundColor: Colors.blue,

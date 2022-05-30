@@ -1,4 +1,5 @@
-import 'package:alura_flutter_curso_2/screens/form.dart';
+import 'package:alura_flutter_curso_2/data/task_inherited.dart';
+import 'package:alura_flutter_curso_2/screens/tela_inicial.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FormScreen(),
+      home: TaskInherited(child: InitialScreen()),
     );
   }
 }

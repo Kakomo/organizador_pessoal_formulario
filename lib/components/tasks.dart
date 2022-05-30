@@ -5,21 +5,29 @@ class Tasks extends StatefulWidget {
   final String nome;
   final String foto;
   final int dificuldade;
+  int level = 1; // para manter o valor mesmo se rebuildar o widget.
 
-  const Tasks(this.nome, this.foto, this.dificuldade, {Key? key})
+  Tasks(this.nome, this.foto, this.dificuldade, {Key? key}) //tirar o const quando por o level aqui em cima
       : super(key: key);
+
 
   @override
   State<Tasks> createState() => _TasksState();
 }
 
 class _TasksState extends State<Tasks> {
-  int level = 1;
 
   void levelUp() {
     setState(() {
-      level++;
+      widget.level++; // precisamos acessar o value do valuenotifier.
     });
+  }
+  bool assetOrNetwork(){
+    if(widget.foto.contains('http')){
+      // print(widget.foto);
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -56,7 +64,12 @@ class _TasksState extends State<Tasks> {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(
+                          child: (assetOrNetwork())? Image.asset(
+                            widget.foto,
+                            height: 100,
+                            width: 72,
+                            fit: BoxFit.cover,
+                          ) : Image.network(
                             widget.foto,
                             height: 100,
                             width: 72,
@@ -117,7 +130,7 @@ class _TasksState extends State<Tasks> {
                         child: LinearProgressIndicator(
                           color: Colors.white,
                           value: widget.dificuldade > 0
-                              ? ((level / widget.dificuldade) / 10)
+                              ? ((widget.level / widget.dificuldade) / 10)
                               : 1,
                         ),
                       ),
@@ -125,7 +138,7 @@ class _TasksState extends State<Tasks> {
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        'Nivel: $level',
+                        'Nivel: ${widget.level}',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
