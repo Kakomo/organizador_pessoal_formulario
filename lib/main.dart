@@ -1,6 +1,4 @@
-
 import 'package:alura_flutter_curso_2/screens/form.dart';
-import 'package:alura_flutter_curso_2/screens/tela_inicial.dart';
 import 'package:flutter/material.dart';
 
 void main() {
