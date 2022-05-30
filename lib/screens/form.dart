@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 class FormScreen extends StatefulWidget {
+  final BuildContext taskContext;
 
-  const FormScreen({Key? key,}) : super(key: key);
+  const FormScreen({Key? key, required this.taskContext}) : super(key: key);
 
   @override
   State<FormScreen> createState() => _FormScreenState();
@@ -41,6 +41,12 @@ class _FormScreenState extends State<FormScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Insira o nome da Tarefa!';
+                          }
+                          return null;
+                        },
                         controller: nameController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -53,6 +59,13 @@ class _FormScreenState extends State<FormScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty || int.parse(value) > 5) {
+                            return 'Insira a Dificuldade de 1 a 5!';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
                         controller: difficultyController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -69,6 +82,13 @@ class _FormScreenState extends State<FormScreen> {
                           print(imageController.text);
                           setState(() {});
                         },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Insira a URL da imagem!';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.url,
                         controller: imageController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
@@ -101,11 +121,14 @@ class _FormScreenState extends State<FormScreen> {
                       padding: EdgeInsets.all(8),
                       child: ElevatedButton(
                         onPressed: () {
-
-
-                          print('Nome:${nameController.text}');
-                          print('Dificuldade:${difficultyController.text}');
-                          print('Imagem:${imageController.text}');
+                          if (_formKey.currentState!.validate()) {
+                            print('Nome:${nameController.text}');
+                            print('Dificuldade:${difficultyController.text}');
+                            print('Imagem:${imageController.text}');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Salvando nova Tarefa')));
+                          }
                         },
                         child: Text('Adicionar!'),
                       ),
